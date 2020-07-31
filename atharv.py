@@ -12,12 +12,11 @@ def findNumber(str):                                                   #For Vali
 
 def clgInfoPage(url):                                                  #For Parsing each College Information Page
 
-
-    global cnt       
+   
     clgurl=requests.get(url)
     htmlClgContent=clgurl.content
     clgSoup=BeautifulSoup(htmlClgContent,'html.parser')
-
+    global cnt
     idd                  =clgSoup.find('span',id="ctl00_ContentPlaceHolder1_lblInstituteCode").getText()
     clgName              =clgSoup.find('span',id="ctl00_ContentPlaceHolder1_lblInstituteNameEnglish").getText()
     regionClg            =clgSoup.find('span',id="ctl00_ContentPlaceHolder1_lblRegion").getText()
@@ -35,9 +34,8 @@ def clgInfoPage(url):                                                  #For Pars
     if idd!="" and clgName!=None and regionClg!="" and District!="" and Address!="" and AutoStatus!="" and totalBoys!="" and totalGirls!="" and website!="" and clgConNo!="" and email!="" and Contact_person_name!="" and Contact_person_name!="0" and Contact_person_name!="--" and Contact_person_name!="---"  and Contact_person_name!="" and person_No!="":
         global csv_writer
         csv_writer.writerow([idd,clgName,regionClg,Address,District,AutoStatus ,totalBoys,totalGirls,website,clgConNo,email,Contact_person_name,person_No])
-        cnt=cnt+1 
+        cnt=cnt+1
         print(cnt)
-        
 
 if __name__ == "__main__":
     
@@ -85,12 +83,10 @@ if __name__ == "__main__":
                 try:
                     clgInfoPage(link)
                 except:
-                    print("Don't press any key to terminate program")
+                    print("Please, Don't press any key to terminate program")
                     pass
             regionID = regionID + 1   #Change The Region
         except:
-            print("Don't press any key to terminate program")
+            print("Please, Don't press any key to terminate program")
             pass
-        
-    print("END")
-    f.close()
+
