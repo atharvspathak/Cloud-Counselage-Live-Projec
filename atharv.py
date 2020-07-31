@@ -40,7 +40,8 @@ def clgInfoPage(url):                                                  #For Pars
         
 
 if __name__ == "__main__":
-    print("Genrating CSV")
+    
+    print("Genrating CSV Please Wait Until End Of Executuion ")
     f= open('DTE Colleges.csv', 'w+')                                           #Create CSV
     csv_writer = csv.writer(f)
     csv_writer.writerow(["ID","College Name","Region","Location","District","Autonomus_Status","Boys_Total","Girls_Total","Website Link","Contact Number","Email Address","Tpo Name","Tpo Contact Number"])  #Genrate Header
@@ -49,40 +50,47 @@ if __name__ == "__main__":
     region = ['Amravati', 'Aurangabad', 'Mumbai', 'Nagpur', 'Nashik', 'Pune']
     regionID = 1
     for name in region:
-        URL = ("http://www.dtemaharashtra.gov.in/frmInstituteList.aspx?RegionID=" + str(regionID) + "&RegionName=" + name)
-        page = requests.get(URL)
-        soup = BeautifulSoup(page.content, 'html.parser')
-        tables = soup.find("table", {"class": "DataGrid"})
-        college_tags = tables.findChildren("td")
-        i = 3
+        try:
+            URL = ("http://www.dtemaharashtra.gov.in/frmInstituteList.aspx?RegionID=" + str(regionID) + "&RegionName=" + name)
+            page = requests.get(URL)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            tables = soup.find("table", {"class": "DataGrid"})
+            college_tags = tables.findChildren("td")
+            i = 3
 
-        #Validate Engineering College
-        word1 = "Engineering"
-        word2 = "Technology"
-        word3 = "Technical"
-        word4 = "Technological"
-        institute_code = []
-        go_to_college_link = []
-        while True:
-            if (i <= len(college_tags)):
-                name = college_tags[i].text
-                if word1 in name or word2 in name or word3 in name or word4 in name:
-                    institute_code.append(college_tags[i - 1])
-            else:
-                break
-            i = i + 3
+            #Validate Engineering College
+            word1 = "Engineering"
+            word2 = "Technology"
+            word3 = "Technical"
+            word4 = "Technological"
+            institute_code = []
+            go_to_college_link = []
+            while True:
+                if (i <= len(college_tags)):
+                    name = college_tags[i].text
+                    if word1 in name or word2 in name or word3 in name or word4 in name:
+                        institute_code.append(college_tags[i - 1])
+                else:
+                    break
+                i = i + 3
 
-        #Append Engineering College link in go_to_college_link URL List
-        for institute in institute_code:
-            clg_link = institute.find('a', {'href': re.compile("^frm")})
-            go_to_college_link.append("http://dtemaharashtra.gov.in/" + clg_link.get('href'))
-        
-        
-        #Traverse go_to_college_link list to scrape each college information page
-        for link in go_to_college_link:
-            clgInfoPage(link)
+            #Append Engineering College link in go_to_college_link URL List
+            for institute in institute_code:
+                clg_link = institute.find('a', {'href': re.compile("^frm")})
+                go_to_college_link.append("http://dtemaharashtra.gov.in/" + clg_link.get('href'))
             
-
-        regionID = regionID + 1   #Change The Region
+            
+            #Traverse go_to_college_link list to scrape each college information page
+            for link in go_to_college_link:
+                try:
+                    clgInfoPage(link)
+                except:
+                    print("Don't press any key to terminate program")
+                    pass
+            regionID = regionID + 1   #Change The Region
+        except:
+            print("Don't press any key to terminate program")
+            pass
+        
     print("END")
     f.close()

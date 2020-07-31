@@ -143,10 +143,8 @@ def categoricalPlot(clgData):
         
     fig, ax = plt.subplots(figsize=(20,10))
     x=clgData["District"].value_counts()
-    names = ['Pune', 'Nagpur', 'Nashik', 'Jalgaon', 'Aurangabad', 'Kolhapur','Ahmednagar', 'Solapur', 'Raigad', 'Thane', 'Mumbai Suburban','Amravati', 'Sangli', 'Satara', 'Wardha', 'Nanded', 'Dhule','Mumbai City', 'Palghar', 'Buldhana', 'Yavatmal', 'Latur', 'Ratnagiri','Osmanabad', 'Chandrapur', 'Beed', 'Gondia', 'Parbhani', 'Hingoli','Jalna', 'Akola', 'Washim', 'Bhandara', 'Nandurbar', 'Gadchiroli'
-    ]
-    values = [x.Pune,x.Nagpur,x.Nashik,x.Jalgaon,x.Aurangabad,x.Kolhapur,x.Ahmednagar,x.Solapur,x.Raigad,x.Thane,x[10],x.Amravati,x.Sangli,x.Satara,x.Wardha,x.Nanded,x.Dhule,x[17],x[18],x[19],x[20],x[21],x[22],x[23],x[24],x[25],x[26],x[27],x[28],x[29],x[30],x[31],x[32],x[33],x[34]]
-
+    names = list(x.keys())
+    values = [ x[i] for i in range (len(x))]
 
     plt.scatter(names, values)
     plt.plot(names, values)
@@ -389,7 +387,7 @@ def index():
     return render_template('index.html')     #Render The Template for visualization of data
 
 if __name__=="__main__":
-    app.run(debug=True)                      #To Start The Web App
+    app.run(debug=True)                   
     
     
     
