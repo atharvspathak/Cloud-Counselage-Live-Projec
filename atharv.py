@@ -41,7 +41,7 @@ def clgInfoPage(url):                                                  #For Pars
 
 if __name__ == "__main__":
     
-    print("Genrating CSV Please Wait Until End Of Executuion ")
+    print("Genrating CSV Please Wait Until End Of Execution ")
     f= open('DTE Colleges.csv', 'w+')                                           #Create CSV
     csv_writer = csv.writer(f)
     csv_writer.writerow(["ID","College Name","Region","Location","District","Autonomus_Status","Boys_Total","Girls_Total","Website Link","Contact Number","Email Address","Tpo Name","Tpo Contact Number"])  #Genrate Header
